@@ -5,6 +5,7 @@ namespace NovaKit\SetupNova\Commands;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Str;
 use LaravelZero\Framework\Commands\Command;
+use TitasGailius\Terminal\Terminal;
 
 class NewCommand extends Command
 {
@@ -36,9 +37,9 @@ class NewCommand extends Command
 
         Terminal::builder()->in(getcwd())->run("{$laravel} new {$projectName}");
 
-        $this->setupDatabase($projectName);
+        $this->setupMySqlDatabase($projectName);
 
-        $this->call('setup', [
+        $this->call('install', [
             '--working-path' => getcwd().'/'.$projectName,
         ]);
     }
@@ -46,9 +47,8 @@ class NewCommand extends Command
     /**
      * Setup database.
      */
-    protected function setupDatabase(string $projectName): void
+    protected function setupMySqlDatabase(string $projectName): void
     {
-        $mysql = $this->findMySqlBinary();
         $host = $this->option('db-host');
         $user = $this->option('db-user');
         $password = $this->option('db-password');
@@ -56,18 +56,7 @@ class NewCommand extends Command
         Terminal::builder()
             ->in(getcwd())
             ->run(
-                "{$mysql} --user={$user} --password={$password} --host={$host} -e \"create database {".Str::slug($projectName, '_')."};\""
+                "mysql --user={$user} --password={$password} --host={$host} -e \"create database ".Str::slug($projectName, '_').";\""
             );
-    }
-
-    /**
-     * Define the command's schedule.
-     *
-     * @param  \Illuminate\Console\Scheduling\Schedule $schedule
-     * @return void
-     */
-    public function schedule(Schedule $schedule): void
-    {
-        // $schedule->command(static::class)->everyMinute();
     }
 }
