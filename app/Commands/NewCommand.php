@@ -68,12 +68,12 @@ class NewCommand extends Command
     protected function configureDatabase(string $projectName, string $workingPath): void
     {
         $this->task('Configure Database', function () use ($projectName, $workingPath) {
-            $option = $this->menu('Choose Database Driver', [
+            $database = $this->menu('Choose Database Driver', [
                 'mysql',
             ])->open();
 
             if ($database == 0) {
-                return $this->setupMySqlDatabase($projectName, $workingPath);
+                return $this->configureMySqlDatabase($projectName, $workingPath);
             }
 
             return false;

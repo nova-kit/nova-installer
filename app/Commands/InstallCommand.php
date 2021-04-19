@@ -80,7 +80,7 @@ class InstallCommand extends Command
     /**
      * Copy seeder files.
      */
-    protected function copyDatabaseSeeders(string $workingPath): bool
+    protected function copyDatabaseSeeders(string $workingPath): void
     {
         $this->task('Setup database seeders', function () use ($workingPath) {
             $source = __DIR__.'/stubs';
