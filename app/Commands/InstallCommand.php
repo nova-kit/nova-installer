@@ -37,7 +37,7 @@ class InstallCommand extends Command
         $target = getcwd().'/database/seeders';
 
         foreach (['UserTableSeeder', 'DatabaseSeeder'] as $file) {
-            File::put("{$target}/{$file}.php", File::get("{$source}/{$file}.stub")));
+            File::put("{$target}/{$file}.php", File::get("{$source}/{$file}.stub"));
         }
     }
 
