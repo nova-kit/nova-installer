@@ -41,7 +41,6 @@ class NewCommand extends Command
         $workingPath = getcwd().'/'.$projectName;
 
         $this->runLaravelInstaller($projectName);
-
         $this->configureDatabase($projectName, $workingPath);
 
         $this->call('install', [
@@ -105,6 +104,7 @@ class NewCommand extends Command
                 $commands->push(
                     "{$php} artisan --execute=\"file_put_contents('.env', str_replace(['DB_{$type}={$defaults[$type]}'], ['DB_{$type}={$db[$type]}'], file_get_contents('.env')));\""
                 );
+            }
         }
 
         foreach ($commands as $command) {
