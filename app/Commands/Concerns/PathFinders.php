@@ -19,6 +19,20 @@ trait PathFinders
     }
 
     /**
+     * Get the PHP binary for the environment.
+     *
+     * @return string
+     */
+    protected function findMySqlBinary(): string
+    {
+        return tap((new ExecutableFinder())->find('mysql'), function ($mysql) {
+            if (is_null($mysql)) {
+                throw new RuntimeException('Unable to find mysql client binary');
+            }
+        });
+    }
+
+    /**
      * Get the laravel installer command for the environment.
      *
      * @return string

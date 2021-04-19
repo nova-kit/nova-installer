@@ -18,7 +18,7 @@ class InstallCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'install';
+    protected $signature = 'install {--working-path=}';
 
     /**
      * The description of the command.
@@ -34,7 +34,7 @@ class InstallCommand extends Command
      */
     public function handle()
     {
-        $workingPath = getcwd();
+        $workingPath = $this->option('working-path') ?? getcwd();
         $php = $this->findPhpBinary();
         $composer = $this->findComposer($workingPath);
 
