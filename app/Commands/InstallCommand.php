@@ -36,7 +36,7 @@ class InstallCommand extends Command
 
     protected function copySeeders(): bool
     {
-        $source = __DIR__.'/../../stubs';
+        $source = __DIR__.'/stubs';
         $target = getcwd().'/database/seeders';
 
         foreach (['UserTableSeeder', 'DatabaseSeeder'] as $file) {
