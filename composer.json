@@ -13,6 +13,7 @@
     ],
     "require": {
         "php": "^7.3|^8.0",
+        "illuminate/log": "^8.0",
         "laravel-zero/framework": "^8.4",
         "symfony/finder": "^5.0",
         "titasgailius/terminal": "^1.0"
