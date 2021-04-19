@@ -36,7 +36,7 @@ class InstallCommand extends Command
         $composer = $this->findComposer();
 
         $this->task('Setup .env', function () use ($php) {
-            Terminal::in(getcwd())->run(
+            Terminal::builder()->in(getcwd())->run(
                 "{$php} artisan --execute=\"file_put_contents('.env', str_replace(['DB_HOST=mysql'], ['DB_HOST=127.0.0.1'], file_get_contents('.env')));\""
             );
 
@@ -44,11 +44,11 @@ class InstallCommand extends Command
         });
 
         $this->task('Require helper packages', function () use ($composer) {
-            Terminal::in(getcwd())->run(
+            Terminal::builder()->in(getcwd())->run(
                 "{$composer} require --dev 'spatie/laravel-ray'"
             );
 
-            Terminal::in(getcwd())->run(
+            Terminal::builder()->in(getcwd())->run(
                 "{$composer} require 'nova-kit/helpers'"
             );
 
@@ -56,15 +56,15 @@ class InstallCommand extends Command
         });
 
         $this->task('Require Laravel Nova', function () use ($php, $composer) {
-            Terminal::in(getcwd())->run(
+            Terminal::builder()->in(getcwd())->run(
                 "{$composer} config repositories.local '{\"type\": \"composer\", \"url\": \"https://nova.laravel.com\"}' --file composer.json"
             );
 
-            Terminal::in(getcwd())->run(
+            Terminal::builder()->in(getcwd())->run(
                 "{$composer} require 'laravel/nova:*"
             );
 
-            Terminal::in(getcwd())->run(
+            Terminal::builder()->in(getcwd())->run(
                 "{$php} artisan nova:install"
             );
 
@@ -77,7 +77,7 @@ class InstallCommand extends Command
 
 
         $this->task('Migrate', function () use ($php, $composer) {
-            Terminal::in(getcwd())->run(
+            Terminal::builder()->in(getcwd())->run(
                 "{$php} artisan migrate --seed"
             );
 
