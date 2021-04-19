@@ -38,5 +38,5 @@
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
-    "bin": ["builds/setup-nova"]
+    "bin": ["setup-nova"]
 }
