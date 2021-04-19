@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers;
+namespace NovaKit\SetupNova\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
