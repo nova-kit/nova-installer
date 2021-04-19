@@ -29,17 +29,21 @@ class InstallCommand extends Command
      */
     public function handle()
     {
-        $this->copySeeders();
+        $this->task('Setup Seeders', function () {
+            return $this->copySeeders();
+        });
     }
 
-    protected function copySeeders(): void
+    protected function copySeeders(): bool
     {
-        $source = realpath(__DIR__.'/../../stubs');
+        $source = __DIR__.'/../../stubs';
         $target = getcwd().'/database/seeders';
 
         foreach (['UserTableSeeder', 'DatabaseSeeder'] as $file) {
             File::put("{$target}/{$file}.php", File::get("{$source}/{$file}.stub"));
         }
+
+        return true;
     }
 
     /**
