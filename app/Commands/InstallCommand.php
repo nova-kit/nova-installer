@@ -3,6 +3,7 @@
 namespace App\Commands;
 
 use Illuminate\Console\Scheduling\Schedule;
+use Illuminate\Support\Facades\File;
 use LaravelZero\Framework\Commands\Command;
 
 class InstallCommand extends Command
