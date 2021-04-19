@@ -60,11 +60,11 @@ class InstallCommand extends Command
 
         $this->task('Require Laravel Nova', function () use ($php, $composer, $workingPath) {
             Terminal::builder()->in($workingPath)->run(
-                "{$composer} config repositories.local '{\"type\": \"composer\", \"url\": \"https://nova.laravel.com\"}' --file composer.json"
+                "{$composer} config repositories.nova '{\"type\": \"composer\", \"url\": \"https://nova.laravel.com\"}' --file composer.json"
             );
 
             Terminal::builder()->in($workingPath)->run(
-                "{$composer} require 'laravel/nova:*"
+                "{$composer} require 'laravel/nova:*'"
             );
 
             Terminal::builder()->in($workingPath)->run(
