@@ -5,9 +5,9 @@ namespace App\Commands;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Facades\File;
 use LaravelZero\Framework\Commands\Command;
-use Symfony\Component\Console\Terminal;
 use Symfony\Component\Process\ExecutableFinder;
 use Symfony\Component\Process\PhpExecutableFinder;
+use TitasGailius\Terminal\Terminal;
 
 class InstallCommand extends Command
 {
