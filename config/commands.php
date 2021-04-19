@@ -60,6 +60,9 @@ return [
         Illuminate\Console\Scheduling\ScheduleRunCommand::class,
         Illuminate\Console\Scheduling\ScheduleFinishCommand::class,
         Illuminate\Foundation\Console\VendorPublishCommand::class,
+        Pest\Laravel\Commands\PestDatasetCommand::class,
+        Pest\Laravel\Commands\PestInstallCommand::class,
+        Pest\Laravel\Commands\PestTestCommand::class,
     ],
 
     /*

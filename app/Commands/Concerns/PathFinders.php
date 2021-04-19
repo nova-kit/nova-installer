@@ -27,7 +27,7 @@ trait PathFinders
     {
         return tap((new ExecutableFinder())->find('laravel'), function ($installer) {
             if (is_null($installer)) {
-                throw new RuntimeException('Unable to find Laravel Installer, please run "composer global require \'laravel/installer\'"')
+                throw new RuntimeException('Unable to find Laravel Installer, please run "composer global require \'laravel/installer\'"');
             }
         });
     }

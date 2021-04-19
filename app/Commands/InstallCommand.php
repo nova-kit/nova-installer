@@ -78,7 +78,6 @@ class InstallCommand extends Command
             return $this->copySeeders($workingPath);
         });
 
-
         $this->task('Migrate', function () use ($php, $composer, $workingPath) {
             Terminal::builder()->in($workingPath)->run(
                 "{$php} artisan migrate --seed"
