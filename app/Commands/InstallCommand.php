@@ -38,14 +38,6 @@ class InstallCommand extends Command
         $php = $this->findPhpBinary();
         $composer = $this->findComposer($workingPath);
 
-        $this->task('Setup .env', function () use ($php, $workingPath) {
-            Terminal::builder()->in($workingPath)->run(
-                "{$php} artisan --execute=\"file_put_contents('.env', str_replace(['DB_HOST=mysql'], ['DB_HOST=127.0.0.1'], file_get_contents('.env')));\""
-            );
-
-            return true;
-        });
-
         $this->task('Require helper packages', function () use ($composer, $workingPath) {
             Terminal::builder()->in($workingPath)->run(
                 "{$composer} require --dev 'spatie/laravel-ray'"
@@ -74,11 +66,9 @@ class InstallCommand extends Command
             return true;
         });
 
-        $this->task('Setup Seeders', function () use ($workingPath) {
-            return $this->copySeeders($workingPath);
-        });
+        $this->copyDatabaseSeeders($workingPath);
 
-        $this->task('Migrate', function () use ($php, $composer, $workingPath) {
+        $this->task('Migrate database', function () use ($php, $composer, $workingPath) {
             Terminal::builder()->in($workingPath)->run(
                 "{$php} artisan migrate --seed"
             );
@@ -90,15 +80,17 @@ class InstallCommand extends Command
     /**
      * Copy seeder files.
      */
-    protected function copySeeders(string $workingPath): bool
+    protected function copyDatabaseSeeders(string $workingPath): bool
     {
-        $source = __DIR__.'/stubs';
-        $target = $workingPath.'/database/seeders';
+        $this->task('Setup database seeders', function () use ($workingPath) {
+            $source = __DIR__.'/stubs';
+            $target = $workingPath.'/database/seeders';
 
-        foreach (['UserTableSeeder', 'DatabaseSeeder'] as $file) {
-            File::put("{$target}/{$file}.php", File::get("{$source}/{$file}.stub"));
-        }
+            foreach (['UserTableSeeder', 'DatabaseSeeder'] as $file) {
+                File::put("{$target}/{$file}.php", File::get("{$source}/{$file}.stub"));
+            }
 
-        return true;
+            return true;
+        });
     }
 }
