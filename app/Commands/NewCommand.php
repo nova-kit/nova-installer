@@ -2,7 +2,6 @@
 
 namespace NovaKit\SetupNova\Commands;
 
-use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Str;
 use LaravelZero\Framework\Commands\Command;
 use TitasGailius\Terminal\Terminal;
@@ -70,10 +69,15 @@ class NewCommand extends Command
         $this->task('Configure Database', function () use ($projectName, $workingPath) {
             $database = $this->menu('Choose Database Driver', [
                 'mysql',
+                'sqlite'
             ])->open();
 
+            $phpBinary = $this->findPhpBinary();
+
             if ($database == 0) {
-                return $this->configureMySqlDatabase($projectName, $workingPath);
+                return $this->configureMySqlDatabase($phpBinary, $projectName, $workingPath);
+            } elseif ($database == 1) {
+                return $this->configureSqliteDatabase($phpBinary, $projectName, $workingPath);
             }
 
             return false;
@@ -83,7 +87,7 @@ class NewCommand extends Command
     /**
      * Configure database.
      */
-    protected function configureMySqlDatabase(string $projectName, string $workingPath): bool
+    protected function configureMySqlDatabase(string $phpBinary, string $projectName, string $workingPath): bool
     {
         $db['HOST'] = $this->ask('Database Host?', $defaults['HOST'] = '127.0.0.1');
         $db['PORT'] = $this->ask('Database Port?', $defaults['PORT'] = '3306');
@@ -102,10 +106,28 @@ class NewCommand extends Command
         foreach (['HOST', 'PORT', 'USERNAME', 'PASSWORD', 'DATABASE'] as $type) {
             if ($db[$type] !== $defaults[$type]) {
                 $commands->push(
-                    "{$php} artisan --execute=\"file_put_contents('.env', str_replace(['DB_{$type}={$defaults[$type]}'], ['DB_{$type}={$db[$type]}'], file_get_contents('.env')));\""
+                    "{$phpBinary} artisan --execute=\"file_put_contents('.env', str_replace(['DB_{$type}={$defaults[$type]}'], ['DB_{$type}={$db[$type]}'], file_get_contents('.env')));\""
                 );
             }
         }
+
+        foreach ($commands as $command) {
+            Terminal::builder()->in($workingPath)->run($command);
+        }
+
+        return true;
+    }
+
+    protected function configureSqliteDatabase(string $phpBinary, string $projectName, string $workingPath): bool
+    {
+        $defaultDatabase = Str::slug($projectName, '_');
+
+        touch("{$workingPath}/database/database.sqlite");
+
+        $commands = collect([
+            "{$phpBinary} artisan --execute=\"file_put_contents('.env', str_replace(['DB_CONNECTION=mysql'], ['DB_CONNECTION=sqlite'], file_get_contents('.env')));\"",
+            "{$phpBinary} artisan --execute=\"file_put_contents('.env', str_replace(['DB_DATABASE={$defaultDatabase}'], ['# DB_DATABASE={$defaultDatabase}'], file_get_contents('.env')));\"",
+        ]);
 
         foreach ($commands as $command) {
             Terminal::builder()->in($workingPath)->run($command);
