@@ -1,8 +1,6 @@
 {
     "name": "nova-kit/laravel-nova-installer",
-    "description": "Setup basic application with Nova.",
-    "keywords": ["framework", "laravel", "laravel zero", "console", "cli"],
-    "homepage": "https://laravel-zero.com",
+    "description": "Laravel Nova Installer",
     "type": "project",
     "license": "MIT",
     "authors": [
