@@ -2,7 +2,6 @@
 
 namespace NovaKit\SetupNova\Commands;
 
-use Illuminate\Support\Str;
 use LaravelZero\Framework\Commands\Command;
 use TitasGailius\Terminal\Terminal;
 
@@ -15,7 +14,10 @@ class NewCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'new {name} {--issue}';
+    protected $signature = 'new {name}
+                                {--issue : Create an issue repository}
+                                {--github= : Create a new repository on GitHub}
+                                {--organization= : The GitHub organization to create the new repository for}';
 
     /**
      * The description of the command.
@@ -52,10 +54,22 @@ class NewCommand extends Command
      */
     protected function runLaravelInstaller(string $projectName): void
     {
-        $this->task('Install Laravel', function () use ($projectName) {
-            $laravel = $this->findLaravelInstaller();
+        $command = collect([
+            $this->findLaravelInstaller(),
+            'new',
+            $projectName,
+        ]);
 
-            Terminal::builder()->in(getcwd())->run("{$laravel} new {$projectName}");
+        if ($this->hasOption('github')) {
+            $command->push('--github="'.$this->option('github').'"');
+
+            if ($this->hasOption('organization')) {
+                $command->push('--organization="'.$this->option('organization').'"');
+            }
+        }
+
+        $this->task('Install Laravel', function () use ($command) {
+            Terminal::builder()->in(getcwd())->run($command->join(' '));
 
             return true;
         });
@@ -93,7 +107,7 @@ class NewCommand extends Command
         $db['PORT'] = $this->ask('Database Port?', $defaults['PORT'] = '3306');
         $db['USERNAME'] = $this->ask('Database Username?', $defaults['USERNAME'] = 'root');
         $db['PASSWORD'] = $this->ask('Database Password?', $defaults['PASSWORD'] = null);
-        $db['DATABASE'] = $this->ask('Database Name?', $defaults['DATABASE'] = Str::slug($projectName, '_'));
+        $db['DATABASE'] = $this->ask('Database Name?', $defaults['DATABASE'] = str_replace('-', '_', strtolower($projectName)));
 
         Terminal::builder()
             ->in(getcwd())
@@ -120,7 +134,7 @@ class NewCommand extends Command
 
     protected function configureSqliteDatabase(string $phpBinary, string $projectName, string $workingPath): bool
     {
-        $defaultDatabase = Str::slug($projectName, '_');
+        $defaultDatabase = str_replace('-', '_', strtolower($projectName));
 
         touch("{$workingPath}/database/database.sqlite");
 
