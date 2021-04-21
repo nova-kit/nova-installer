@@ -1,5 +1,5 @@
 {
-    "name": "nova-kit/laravel-nova-installer",
+    "name": "nova-kit/nova-installer",
     "description": "Laravel Nova Installer",
     "type": "project",
     "license": "MIT",
