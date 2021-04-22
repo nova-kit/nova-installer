@@ -19,7 +19,8 @@ class InstallCommand extends Command
      * @var string
      */
     protected $signature = 'install {--working-path= : Project working directory}
-                                    {--install-optional : Install all optional dependencies}';
+                                    {--install-optional : Install all optional dependencies}
+                                    {--with-sample-data : With sample data}';
 
     /**
      * The description of the command.
@@ -45,7 +46,9 @@ class InstallCommand extends Command
 
         $this->requireLaravelNova($php, $composer, $workingPath);
 
-        $this->copyDatabaseSeeders($workingPath);
+        if ($this->option('with-sample-data') === true) {
+            $this->copyDatabaseSeeders($workingPath);
+        }
 
         $this->runDatabaseMigrations($php, $composer, $workingPath);
     }
