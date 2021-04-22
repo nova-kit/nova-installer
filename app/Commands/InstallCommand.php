@@ -39,7 +39,9 @@ class InstallCommand extends Command
         $php = $this->findPhpBinary();
         $composer = $this->findComposer($workingPath);
 
-        $this->requireHelperPackages($composer, $workingPath);
+        if ($this->option('install-optional') === true) {
+            $this->requireHelperPackages($composer, $workingPath);
+        }
 
         $this->requireLaravelNova($php, $composer, $workingPath);
 
@@ -85,19 +87,13 @@ class InstallCommand extends Command
     protected function requireHelperPackages(string $composer, $workingPath): void
     {
         $this->task('Require helper packages', function () use ($composer, $workingPath) {
-            $installOptional = $this->option('install-optional');
+            Terminal::builder()->in($workingPath)->run(
+                "{$composer} require --dev 'spatie/laravel-ray'"
+            );
 
-            if ($installOptional === true || $this->confirm("Install 'spatie/laravel-ray' as --dev dependency", true)) {
-                Terminal::builder()->in($workingPath)->run(
-                    "{$composer} require --dev 'spatie/laravel-ray'"
-                );
-            }
-
-            if ($installOptional === true || $this->confirm("Install 'nova-kit/helpers' as dependency", true)) {
-                Terminal::builder()->in($workingPath)->run(
-                    "{$composer} require 'nova-kit/helpers'"
-                );
-            }
+            Terminal::builder()->in($workingPath)->run(
+                "{$composer} require 'nova-kit/helpers'"
+            );
 
             return true;
         });
