@@ -60,8 +60,8 @@ class NewCommand extends Command
             $projectName,
         ]);
 
-        if ($this->hasOption('github')) {
-            $command->push('--github="'.$this->option('github').'"');
+        if ($this->hasOption('github') && ! is_null($github = $this->option('github'))) {
+            $command->push('--github="'.$github.'"');
 
             if ($this->hasOption('organization')) {
                 $command->push('--organization="'.$this->option('organization').'"');
