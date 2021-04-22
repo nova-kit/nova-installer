@@ -18,7 +18,8 @@ class InstallCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'install {--working-path=}';
+    protected $signature = 'install {--working-path= : Project working directory}
+                                    {--install-optional : Install all optional dependencies}';
 
     /**
      * The description of the command.
@@ -84,13 +85,19 @@ class InstallCommand extends Command
     protected function requireHelperPackages(string $composer, $workingPath): void
     {
         $this->task('Require helper packages', function () use ($composer, $workingPath) {
-            Terminal::builder()->in($workingPath)->run(
-                "{$composer} require --dev 'spatie/laravel-ray'"
-            );
+            $installOptional = $this->option('install-optional');
 
-            Terminal::builder()->in($workingPath)->run(
-                "{$composer} require 'nova-kit/helpers'"
-            );
+            if ($installOptional === true || $this->confirm("Install 'spatie/laravel-ray' as --dev dependency", true)) {
+                Terminal::builder()->in($workingPath)->run(
+                    "{$composer} require --dev 'spatie/laravel-ray'"
+                );
+            }
+
+            if ($installOptional === true || $this->confirm("Install 'nova-kit/helpers' as dependency", true)) {
+                Terminal::builder()->in($workingPath)->run(
+                    "{$composer} require 'nova-kit/helpers'"
+                );
+            }
 
             return true;
         });

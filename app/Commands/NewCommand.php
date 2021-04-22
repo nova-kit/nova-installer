@@ -17,7 +17,8 @@ class NewCommand extends Command
     protected $signature = 'new {name}
                                 {--issue : Create an issue repository}
                                 {--github= : Create a new repository on GitHub}
-                                {--organization= : The GitHub organization to create the new repository for}';
+                                {--organization= : The GitHub organization to create the new repository for}
+                                {--install-optional : Install all optional dependencies}';
 
     /**
      * The description of the command.
@@ -46,6 +47,7 @@ class NewCommand extends Command
 
         $this->call('install', [
             '--working-path' => $workingPath,
+            '--install-optional' => $this->option('install-optional'),
         ]);
     }
 
