@@ -19,3 +19,11 @@ cd example-app
 
 php artisan serve
 ```
+
+## Usage using CPX
+
+You can also create new Laravel Nova project using CPX:
+
+```bash
+cpx nova-kit/nova-installer new example-app
+```
