@@ -8,7 +8,7 @@ Install using Composer (Global):
 composer global require "nova-kit/nova-installer"
 ```
 
-### Usage
+## Usage
 
 You can create a new Laravel Nova project using:
 
