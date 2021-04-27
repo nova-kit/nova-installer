@@ -124,7 +124,7 @@ class NewCommand extends Command
         foreach (['HOST', 'PORT', 'USERNAME', 'PASSWORD', 'DATABASE'] as $type) {
             if ($db[$type] !== $defaults[$type]) {
                 $commands->push(
-                    "{$phpBinary} artisan --execute=\"file_put_contents('.env', str_replace(['DB_{$type}={$defaults[$type]}'], ['DB_{$type}={$db[$type]}'], file_get_contents('.env')));\""
+                    "{$phpBinary} artisan tinker --execute=\"file_put_contents('.env', str_replace(['DB_{$type}={$defaults[$type]}'], ['DB_{$type}={$db[$type]}'], file_get_contents('.env')));\""
                 );
             }
         }
@@ -143,8 +143,8 @@ class NewCommand extends Command
         touch("{$workingPath}/database/database.sqlite");
 
         $commands = collect([
-            "{$phpBinary} artisan --execute=\"file_put_contents('.env', str_replace(['DB_CONNECTION=mysql'], ['DB_CONNECTION=sqlite'], file_get_contents('.env')));\"",
-            "{$phpBinary} artisan --execute=\"file_put_contents('.env', str_replace(['DB_DATABASE={$defaultDatabase}'], ['# DB_DATABASE={$defaultDatabase}'], file_get_contents('.env')));\"",
+            "{$phpBinary} artisan tinker --execute=\"file_put_contents('.env', str_replace(['DB_CONNECTION=mysql'], ['DB_CONNECTION=sqlite'], file_get_contents('.env')));\"",
+            "{$phpBinary} artisan tinker --execute=\"file_put_contents('.env', str_replace(['DB_DATABASE={$defaultDatabase}'], ['# DB_DATABASE={$defaultDatabase}'], file_get_contents('.env')));\"",
         ]);
 
         foreach ($commands as $command) {
