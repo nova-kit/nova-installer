@@ -79,7 +79,7 @@ class NewCommand extends Command
             '9.x',
         ];
 
-        $branch = $this->menu('Choose Laravel Version', $supportedVersions)->open();
+        $branch = $this->menu('Choose Laravel Version', $supportedVersions[$branch])->open();
 
         $command->push('--branch='.$supportedVersions[$branch]);
 
