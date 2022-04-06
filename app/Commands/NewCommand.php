@@ -79,9 +79,9 @@ class NewCommand extends Command
             '9.x',
         ];
 
-        $branch = $this->menu('Choose Laravel Version', $supportedVersions[$branch])->open();
+        $branch = $this->menu('Choose Laravel Version', $supportedVersions)->open();
 
-        $command->push('--branch='.$supportedVersions[$branch]);
+        $command->push('--branch="'.$supportedVersions[$branch].'"');
 
         $this->task('Install Laravel', function () use ($command) {
             Terminal::builder()->in(getcwd())->run($command->join(' '));
