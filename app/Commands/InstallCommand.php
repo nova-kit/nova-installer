@@ -112,13 +112,15 @@ class InstallCommand extends Command
                 "{$composer} config repositories.nova '{\"type\": \"composer\", \"url\": \"https://nova.laravel.com\"}' --file composer.json"
             );
 
-            $branch = $this->menu('Choose Laravel Nova Version', [
+            $supportedVersions = [
                 '3.0',
                 '4.0'
-            ])->open();
+            ];
+
+            $branch = $this->menu('Choose Laravel Nova Version', $supportedVersions)->open();
 
             Terminal::builder()->in($workingPath)->run(
-                "{$composer} require 'laravel/nova:^{$branch}'"
+                "{$composer} require 'laravel/nova:^{$supportedVersions[$branch]}'"
             );
 
             Terminal::builder()->in($workingPath)->run(

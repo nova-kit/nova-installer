@@ -74,12 +74,14 @@ class NewCommand extends Command
 
         $command->push('--git');
 
-        $branch = $this->menu('Choose Laravel Version', [
+        $supportedVersions = [
             '8.x',
-            '9.x'
-        ])->open();
+            '9.x',
+        ];
 
-        $command->push('--branch='.$branch);
+        $branch = $this->menu('Choose Laravel Version', $supportedVersions)->open();
+
+        $command->push('--branch='.$supportedVersions[$branch]);
 
         $this->task('Install Laravel', function () use ($command) {
             Terminal::builder()->in(getcwd())->run($command->join(' '));
