@@ -192,8 +192,8 @@ class InstallCommand extends Command
             );
 
             $supportedVersions = [
+                '4.0',
                 '3.0',
-                '4.0'
             ];
 
             $branch = $this->menu('Choose Laravel Nova Version', $supportedVersions)->open();
