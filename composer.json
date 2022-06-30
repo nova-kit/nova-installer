@@ -14,8 +14,8 @@
         "laravel/installer": "^4.2"
     },
     "require-dev": {
-        "illuminate/support": "^8.0",
-        "laravel-zero/framework": "^8.4",
+        "illuminate/support": "^9.0",
+        "laravel-zero/framework": "^9.0",
         "mockery/mockery": "^1.4.2",
         "nunomaduro/laravel-console-menu": "^3.2",
         "pestphp/pest": "^1.0",
