@@ -199,7 +199,7 @@ class InstallCommand extends Command
             $branch = $this->menu('Choose Laravel Nova Version', $supportedVersions)->open();
 
             Terminal::builder()->in($workingPath)->run(
-                "{$composer} require 'laravel/nova:^{$supportedVersions[$branch]}'"
+                "{$composer} require 'laravel/nova:^{$supportedVersions[$branch]}' --with-all-dependencies"
             );
 
             Terminal::builder()->in($workingPath)->run(
