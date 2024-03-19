@@ -11,14 +11,15 @@
     ],
     "require": {
         "php": "^7.3|^8.0",
-        "laravel/installer": "^4.2"
+        "laravel/installer": "^5.0",
+        "nunomaduro/laravel-console-menu": "^3.4"
     },
     "require-dev": {
-        "illuminate/support": "^9.0",
-        "laravel-zero/framework": "^9.0",
+        "illuminate/filesystem": "^10.48.2 || ^11.0",
+        "illuminate/support": "^10.48.2 || ^11.0",
+        "laravel-zero/framework": "^10.0",
         "mockery/mockery": "^1.4.2",
-        "nunomaduro/laravel-console-menu": "^3.2",
-        "pestphp/pest": "^1.0",
+        "pestphp/pest": "^2.0",
         "titasgailius/terminal": "^1.0"
     },
     "autoload": {

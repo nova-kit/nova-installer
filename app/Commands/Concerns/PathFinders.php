@@ -6,6 +6,8 @@ use RuntimeException;
 use Symfony\Component\Process\ExecutableFinder;
 use Symfony\Component\Process\PhpExecutableFinder;
 
+use function Illuminate\Filesystem\join_paths;
+
 trait PathFinders
 {
     /**
@@ -53,7 +55,7 @@ trait PathFinders
      */
     protected function findComposer(string $workingPath): string
     {
-        $composer = $workingPath.'/composer.phar';
+        $composer = join_paths($workingPath, 'composer.phar');
 
         $php = $this->findPhpBinary();
 

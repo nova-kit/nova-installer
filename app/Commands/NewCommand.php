@@ -5,6 +5,8 @@ namespace NovaKit\SetupNova\Commands;
 use LaravelZero\Framework\Commands\Command;
 use TitasGailius\Terminal\Terminal;
 
+use function Illuminate\Filesystem\join_paths;
+
 class NewCommand extends Command
 {
     use Concerns\PathFinders;
@@ -41,7 +43,7 @@ class NewCommand extends Command
             $projectName = implode('-', ['issue', $projectName]);
         }
 
-        $workingPath = getcwd().'/'.$projectName;
+        $workingPath = (string) realpath(join_paths(getcwd(), $projectName));
 
         $this->runLaravelInstaller($projectName);
 
@@ -50,7 +52,7 @@ class NewCommand extends Command
             '--working-path' => $workingPath,
             '--install-optional' => $this->option('install-optional'),
             '--with-sample-data' => $this->option('with-sample-data'),
-        ]);
+        ], $this->output);
     }
 
     /**
